@@ -1,0 +1,26 @@
+{
+  "name": "html-replace-plugin",
+  "version": "0.1.0",
+  "description": "Replace build blocks in HTML",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/limerickgds/html-replace-plugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "replace",
+    "html",
+    "script",
+    "tag"
+  ],
+  "author": "limerickgds",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/limerickgds/html-replace-plugin/issues"
+  },
+  "homepage": "https://github.com/limerickgds/html-replace-plugin#readme"
+}
