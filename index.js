@@ -1,21 +1,21 @@
 "use strict";
 
-var fs = require('fs');
+// var fs = require('fs');
 var _ = require('lodash');
 var path = require('path');
 
-function HtmlResWebpackPlugin(options) {
+function HtmlReplacePlugin(options) {
 	this.options = _.extend({
-
 		template: '',
 	}, options);
 }
 
-HtmlResWebpackPlugin.prototype.apply = function(compiler, callback) {
+HtmlReplacePlugin.prototype.apply = function(compiler, callback) {
 	let _this = this;
-  compiler.plugin('',function(){
-
+  compiler.plugin('emit',function(compilation,callback){
+		callback();
   });
+
 };
 
-module.exports = HtmlResWebpackPlugin;
+module.exports = HtmlReplacePlugin;

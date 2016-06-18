@@ -4,7 +4,8 @@
   "description": "Replace build blocks in HTML",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run test:default",
+    "test:default": "webpack --config ./examples/default/webpack.config.js --progress --debug"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,15 @@
   "bugs": {
     "url": "https://github.com/limerickgds/html-replace-plugin/issues"
   },
-  "homepage": "https://github.com/limerickgds/html-replace-plugin#readme"
+  "homepage": "https://github.com/limerickgds/html-replace-plugin#readme",
+  "dependencies": {
+    "lodash": "^4.13.1"
+  },
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "html-loader": "^0.4.3",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.1"
+  }
 }
