@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/limerickgds/html-replace-plugin#readme",
   "dependencies": {
+    "bluebird": "^3.4.1",
     "lodash": "^4.13.1"
   },
   "devDependencies": {

@@ -22,7 +22,10 @@ var webpackConfig = {
     ]
   },
   plugins: [
-    new HtmlReplacePlugin()
+    new HtmlReplacePlugin({
+      filename: './dist/index.html',
+      template: './index.html'
+    })
   ]
 };
 
