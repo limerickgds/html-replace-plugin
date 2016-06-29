@@ -15,6 +15,14 @@ var webpackConfig = {
   module: {
     loaders: [
       {
+        test: /\.js?$/,
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: {
+          presets: ['es2015', 'react']
+        }
+      },
+      {
         test: /\.css$/,
         loader: 'style!css'
       },
@@ -26,8 +34,8 @@ var webpackConfig = {
   },
   plugins: [
     new HtmlReplacePlugin({
-      filename: './dist/index.html',
-      template: './index.html'
+      filename: __dirname + '/dist/index.html',
+      template: __dirname + '/index.html'
     })
   ]
 };

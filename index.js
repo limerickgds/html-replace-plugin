@@ -4,7 +4,8 @@ var fs = require('fs');
 var _ = require('lodash');
 var Promise = require('bluebird');
 var path = require('path');
-var parse  =require('./lib/parser.js');
+var parser  =require('./lib/parser.js');
+var async = require('async');
 
 function HtmlReplacePlugin(options) {
 	this.chunkVersions = [];
@@ -17,13 +18,29 @@ function HtmlReplacePlugin(options) {
 HtmlReplacePlugin.prototype.apply = function(compiler, callback) {
 	var  self = this;
 	var filename  = this.options.template;
+	var isCompilationCached = false;
 	var compilationPromise;
-	if(path.resolve(filename) === path.normalize(filename)){
-		this.options.filename = path.relative(compiler.options.output.path, filename);
-	}
+	compiler.plugin('make', function (compilation,callback) {
+		compilationPromise = parser.parserTemplate(self.options.template, compiler.context, self.options.filename, compilation)
+      .catch(function (err) {
+         console.log(err);
+        return {
+          content: 'ERROR',
+          outputName: self.options.filename
+        };
+      })
+      .then(function (compilationResult) {
+        // If the compilation change didnt change the cache is valid
+        isCompilationCached = compilationResult.hash && self.childCompilerHash === compilationResult.hash;
+        self.childCompilerHash = compilationResult.hash;
+        self.childCompilationOutputName = compilationResult.outputName;
+        callback();
+        return compilationResult.content;
+      });
+	});
   compiler.plugin('emit',function(compilation,callback){
 		// compilationPromise = childCompiler.compileTemplate(self.options.template,compiler.context, self.options.filename,compilation);
-		console.log(compilation.chunks.filter);
+		console.log('emit');
 		var changedChunks = compilation.chunks.filter(function(chunk) {
       var oldVersion = this.chunkVersions[chunk.name];
       this.chunkVersions[chunk.name] = chunk.hash;
@@ -33,7 +50,7 @@ HtmlReplacePlugin.prototype.apply = function(compiler, callback) {
 		callback();
   }.bind(this));
 	compiler.plugin('after-emit',function(compilation,callback){
-		console.log(compilation);
+		console.log('after-emit');
 	}.bind(this));
 };
 
