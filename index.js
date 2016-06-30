@@ -20,6 +20,8 @@ HtmlReplacePlugin.prototype.apply = function(compiler, callback) {
 	var filename  = this.options.template;
 	var isCompilationCached = false;
 	var compilationPromise;
+	this.options.template = this.getFullTemplatePath(this.options.template, compiler.context);
+
 	compiler.plugin('make', function (compilation,callback) {
 		compilationPromise = parser.parserTemplate(self.options.template, compiler.context, self.options.filename, compilation)
       .catch(function (err) {
@@ -52,6 +54,19 @@ HtmlReplacePlugin.prototype.apply = function(compiler, callback) {
 	compiler.plugin('after-emit',function(compilation,callback){
 		console.log('after-emit');
 	}.bind(this));
+};
+
+HtmlReplacePlugin.prototype.getFullTemplatePath = function (template, context) {
+  // If the template doesn't use a loader use the lodash template loader
+  if (template.indexOf('!') === -1) {
+    template = require.resolve('./lib/loader.js') + '!' + path.resolve(context, template);
+  }
+  // Resolve template path
+  return template.replace(
+    /(\!)([^\/\\][^\!\?]+|[^\/\\!?])($|\?.+$)/,
+    function (match, prefix, filepath, postfix) {
+      return prefix + path.resolve(filepath) + postfix;
+    });
 };
 
 
